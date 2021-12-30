@@ -1,0 +1,51 @@
+.container-signup-page {
+    width: 50%;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid gray;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    border-radius: 10px;
+}
+
+.container-signup-page h2 {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+    color: #000066;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-form > div {
+    width: 100%;
+    padding: 5px 50px;
+}
+
+.signup-form h5 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+    color: #000066;
+}
+
+.no-acc {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.container-signup-page .nav-link {
+    color: #9999ff !important;
+}
+
+.form-col h5 {
+    text-align: left;
+}

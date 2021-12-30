@@ -1,0 +1,10 @@
+.btn {
+    background-color: #00BFFF;
+    border-radius: 4px;
+    border: 1px solid white;
+    color: #eeeeee;
+    font-family: "Segoe UI";
+    font-size: 14px;
+    width: 50px;
+    height: 25px;
+}
