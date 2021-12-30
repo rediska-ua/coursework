@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.11.12",
+    "pyconnector": "^1.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.23.1",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "connect-pg-simple": "^7.0.0",
+    "dotenv": "^10.0.0",
+    "fastify": "^3.24.1",
+    "fastify-cookie": "^5.4.0",
+    "fastify-jwt": "^4.1.1",
+    "fastify-plugin": "^3.0.0",
+    "fastify-postgres": "^3.6.0",
+    "fastify-session": "^5.2.1",
+    "mongodb": "^4.2.2",
+    "pg": "^8.7.1"
+  }
+}
