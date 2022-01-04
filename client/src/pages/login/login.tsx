@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import {Link} from "react-router-dom";
 import {Col, FormGroup, Input, Form, Button} from "reactstrap";
 import './login.css';
-import {loginUser} from "../../services/auth/authService";
+import {loginUser} from "../../services/auth/AuthService";
 import LocalStorageService from "../../services/storage/StorageService";
+import { useNavigate } from "react-router-dom";
 import {fireEvent} from "@testing-library/react";
 
-const Login = () => {
+const Login: FC = () => {
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [formValid, setFormValidation] = useState(false)
+	const navigate = useNavigate()
 
 	const formValidation = (): boolean => {
 		const emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
@@ -29,9 +31,8 @@ const Login = () => {
 			}
 			const result = await loginUser(obj);
 			const storage = LocalStorageService;
-			storage.setToken(result.token)
-			console.log(result)
-			window.location.replace("http://localhost:3000/home");
+			storage.setToken(result.result)
+			window.location.replace('/home')
 		} catch (error) {
 			console.log(error)
 		}

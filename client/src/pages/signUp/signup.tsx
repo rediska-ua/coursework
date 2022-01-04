@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import {Form, FormGroup, Col, Input, Button, NavLink} from "reactstrap";
 import './signup.css';
-import {authUser, loginUser} from "../../services/auth/authService";
+import {authUser, loginUser} from "../../services/auth/AuthService";
 import {Link} from "react-router-dom";
 import LocalStorageService from "../../services/storage/StorageService";
+import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
+const SignUp: FC  = ()=> {
 
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [formValid, setFormValidation] = useState(false)
+	const navigate = useNavigate()
 
 	const formValidation = (): boolean => {
 		const emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
@@ -28,22 +30,12 @@ const SignUp = () => {
 	console.log(formValid)
 
 	const onSignUp = async (): Promise<void> => {
-		try {
-			const signupResult = authUser({email: email, password: password,
-				lastName: lastName, firstName: firstName});
-			signupResult.then(async (response) => {
-				const signupResult = await response.json();
-				const result = await loginUser({email: email, password: password})
-				const storage = LocalStorageService;
-				storage.clearToken()
-				storage.setToken(result.token)
-				window.location.replace("http://localhost:3000/home");
-				console.log(signupResult)
-				console.log(result)
-			})
-		} catch (error) {
-			console.log(error)
-		}
+		const data = await authUser({email, password, lastName, firstName});
+		const result = await loginUser({email, password});
+		const storage = LocalStorageService;
+		storage.clearToken()
+		storage.setToken(result.result)
+		navigate('/home')
 	}
 
 	return (
@@ -120,7 +112,7 @@ const SignUp = () => {
 			<Link to="/restore_password">Forgot your password?</Link>
 			<div className="no-acc">
 				<span>You already have got an account?  </span>
-				<Link to="/login">Sign in</Link>
+				<Link to="/login">{'  '}Sign in</Link>
 			</div>
 		</div>
 	);

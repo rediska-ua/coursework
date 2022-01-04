@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import Header from "./components/header/header";
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
 import Login from "./pages/login/login";
 import SignUp from "./pages/signUp/signup";
 import HomePage from "./pages/homePage/homePage";
@@ -9,25 +9,33 @@ import Footer from "./components/footer/Footer";
 import RestorePassword from "./pages/restorePassord/restorePassword";
 import Profile from "./pages/profile/profile";
 import StorageService from "./services/storage/StorageService";
-import { getUserData } from "./services/auth/authService";
+import { getUserData } from "./services/auth/AuthService";
 import Result from "./pages/resultPage/resultPage";
 import Analysis from "./pages/analysisPage/analysisPage";
+import {useDispatch, useSelector} from "react-redux";
+import {getUserAsync} from "./store/auth-slice";
+import {State} from "./store";
+
+
 
 const App = () => {
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector((state: State) => state.auth.isAuthenticated);
     const [result, setResult] = useState({
         email: '',
         firstname: '',
         lastname: ''
     });
+
+    const [dispatched, setDispatched] = useState(false);
     useEffect(() => {
-        const getData = async () => {
-            const token = StorageService.getAccessToken();
-            const result = await getUserData(token);
-            console.log(result)
-            return result;
-        }
-        getData().then(result => setResult(result));
+        dispatch(getUserAsync());
+        setDispatched(true);
     }, [])
+
+    if (!dispatched) {
+        return <p>Loading</p>
+    }
 
     return (
     <Router>
@@ -35,14 +43,14 @@ const App = () => {
             <Header/>
             <div className="main-app-container">
                 <Routes>
-                    <Route path="/home" element={<HomePage />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path='/signup' element={<SignUp />} />
+                    <Route path="/" element={ isAuthenticated ? <Navigate to='/home'/> : <Navigate to='/login'/>} />
+                    <Route path="/home" element={ isAuthenticated ? <HomePage /> : <Navigate to='/login'/>} />
+                    <Route path="/login" element={ isAuthenticated ? <Navigate to='/home'/> : <Login /> } />
+                    <Route path='/signup' element={isAuthenticated ? <Navigate to='/home'/> :<SignUp />} />
                     <Route path='/restore_password' element={<RestorePassword />} />
-                    <Route path='/analysis' element={<Analysis />} />
-                    <Route path='/result' element={<Result />} />
-                    <Route path='/profile' element={<Profile  email={result.email} firstName={result.firstname}
-                                                              lastName={result.lastname}/>} />
+                    <Route path='/analysis' element={ isAuthenticated ? <Analysis /> : <Navigate to='/login'/>} />
+                    <Route path='/result' element={ isAuthenticated ? <Result /> : <Navigate to='/login'/>} />
+                    <Route path='/profile' element={ isAuthenticated ? <Profile/> : <Navigate to='/login'/>} />
                 </Routes>
             </div>
             <Footer/>

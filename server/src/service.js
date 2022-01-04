@@ -1,5 +1,5 @@
-const Path = require('path')
-const PyConnector = require('pyconnector')
+
+import PyConnector from 'pyconnector';
 
 // create connector
 const PyAPI = new PyConnector({
@@ -9,8 +9,7 @@ const PyAPI = new PyConnector({
 
 (async () => {
     console.log('Available Python routes:', await PyAPI.routes())
-    console.log('Python version:', await PyAPI.query('pyversion'))
-    const value = await PyAPI.query('value', {text})
+    const value = await PyAPI.query('text', {text: "В Україні обрали нового презиндента. Їм став комік Михайло Галустян"})
     console.log(value)
     PyAPI.end()
 })()

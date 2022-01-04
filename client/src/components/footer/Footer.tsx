@@ -12,13 +12,13 @@ const TextArea = (): JSX.Element => {
 						<h5 className="title">About us</h5>
 						<ul>
 							<li className="col-list">
-								<NavLink href="/">Contacts</NavLink>
+								<NavLink href="/home">Contacts</NavLink>
 							</li>
 							<li className="col-list">
-								<NavLink href="/">More info</NavLink>
+								<NavLink href="/home">More info</NavLink>
 							</li>
 							<li className="col-list">
-								<NavLink href="/">About us</NavLink>
+								<NavLink href="/home">About us</NavLink>
 							</li>
 						</ul>
 					</Col>
@@ -26,13 +26,13 @@ const TextArea = (): JSX.Element => {
 						<h5 className="title">More info</h5>
 						<ul>
 							<li className="col-list">
-								<NavLink href="/">Contacts</NavLink>
+								<NavLink href="/home">Contacts</NavLink>
 							</li>
 							<li className="col-list">
-								<NavLink href="/">More info</NavLink>
+								<NavLink href="/home">More info</NavLink>
 							</li>
 							<li className="col-list">
-								<NavLink href="/">About us</NavLink>
+								<NavLink href="/home">About us</NavLink>
 							</li>
 						</ul>
 					</Col>
@@ -40,13 +40,13 @@ const TextArea = (): JSX.Element => {
 						<h5 className="title">Contacts</h5>
 						<ul>
 							<li className="col-list">
-								<NavLink href="/">Contacts</NavLink>
+								<NavLink href="/home">Contacts</NavLink>
 							</li>
 							<li className="col-list">
-								<NavLink href="/">More info</NavLink>
+								<NavLink href="/home">More info</NavLink>
 							</li>
 							<li className="col-list">
-								<NavLink href="/">About us</NavLink>
+								<NavLink href="/home">About us</NavLink>
 							</li>
 						</ul>
 					</Col>

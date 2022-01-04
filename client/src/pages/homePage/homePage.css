@@ -6,11 +6,31 @@
     border-radius: 3px;
 }
 
+h1,
+h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #000066;
+}
+
+h1 {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+h4 {
+    margin-bottom: 1rem;
+}
+
 .main-container {
     margin-top: 20px;
     margin-left: 60px;
     margin-right: 60px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .text-center {
@@ -33,6 +53,24 @@
     align-items: center;
     flex-grow: 1;
     overflow: auto;
+    width: 100%;
+}
+
+.container-for-input textarea {
+    border: 1px solid darkgray;
+    border-radius: 10px;
+}
+
+.news-sources-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.news-sources-input button {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .container-for-input button {
@@ -40,7 +78,7 @@
     margin-bottom: 50px;
 }
 
-.container-for-input h2 {
+.container-for-input h2, .news-sources-input h2 {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     margin-top: 20px;
@@ -92,4 +130,12 @@
 
 .col-list a {
     color: white !important;
+}
+
+.home-btn a {
+    color: white
+}
+
+.image-block {
+    margin-bottom: 1rem;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Col, FormGroup, Input, Form, Button, NavLink} from "reactstrap";
-import { changePassword } from "../../services/auth/authService";
+import { changePassword } from "../../services/auth/AuthService";
 //import LocalStorageService from "../../services/storage/StorageService";
 import {Link} from "react-router-dom";
 

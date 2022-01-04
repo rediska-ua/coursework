@@ -24,4 +24,27 @@ a {
 
 
 
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-container > div {
+  width: 100%;
+  padding: 5px 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-container h5 {
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 300;
+  color: #000066;
+  margin-right: 2rem;
+}
+
+
+
 
