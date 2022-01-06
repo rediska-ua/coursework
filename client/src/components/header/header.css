@@ -4,6 +4,11 @@
     padding-right: 50px;
 }
 
+.header {
+    padding: 0 3vw;
+    background-color: #6868AC;
+}
+
 .userLogo {
     filter: invert(100%) sepia(88%) saturate(0%) hue-rotate(217deg) brightness(105%) contrast(105%);
     width: 25px;
@@ -32,12 +37,6 @@
 
 .profile-logo {
     margin-right: 1.5rem;
-}
-
-h2 {
-    font-family: Roboto, 'sans-serif';
-    font-size: 1.25rem;
-    color: white;
 }
 
 .navbar a {

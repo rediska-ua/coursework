@@ -1,4 +1,5 @@
 import {Users} from "../models/UserModel.js";
+import {Posts} from "../models/ResultModel.js";
 
 export class UserService {
 
@@ -16,6 +17,16 @@ export class UserService {
         const result = await Users.findOne({email: email}).exec();
         console.log(result)
         return result;
+    }
+
+    async updateUserInfoById(id, data) {
+        const user = JSON.parse(data);
+        const body = {
+            "email": user.email,
+            "lastName": user.lastName,
+            "firstName": user.firstName
+        }
+        return Users.updateOne({_id: id}, body);
     }
 
 }

@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import LocalStorageService from "../services/storage/StorageService";
 
 export interface User {
+    id: string,
     firstName: string,
     lastName: string,
     email: string

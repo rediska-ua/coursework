@@ -15,6 +15,8 @@ import Analysis from "./pages/analysisPage/analysisPage";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserAsync} from "./store/auth-slice";
 import {State} from "./store";
+import {Spinner} from "reactstrap";
+import ProfileEditPage from "./pages/profile-edit/profile-edit";
 
 
 
@@ -34,7 +36,10 @@ const App = () => {
     }, [])
 
     if (!dispatched) {
-        return <p>Loading</p>
+        return (
+            <div className='div-spinner'>
+                <Spinner animation="border" style={{ width: '10rem', height: '10rem' }}/>
+            </div>);
     }
 
     return (
@@ -47,10 +52,10 @@ const App = () => {
                     <Route path="/home" element={ isAuthenticated ? <HomePage /> : <Navigate to='/login'/>} />
                     <Route path="/login" element={ isAuthenticated ? <Navigate to='/home'/> : <Login /> } />
                     <Route path='/signup' element={isAuthenticated ? <Navigate to='/home'/> :<SignUp />} />
-                    <Route path='/restore_password' element={<RestorePassword />} />
                     <Route path='/analysis' element={ isAuthenticated ? <Analysis /> : <Navigate to='/login'/>} />
-                    <Route path='/result' element={ isAuthenticated ? <Result /> : <Navigate to='/login'/>} />
+                    <Route path='/result/:id' element={ isAuthenticated ? <Result /> : <Navigate to='/login'/>} />
                     <Route path='/profile' element={ isAuthenticated ? <Profile/> : <Navigate to='/login'/>} />
+                    <Route path='/profile-edit' element={ isAuthenticated ? <ProfileEditPage/> : <Navigate to='/login'/>} />
                 </Routes>
             </div>
             <Footer/>

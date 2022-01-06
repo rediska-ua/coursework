@@ -4,8 +4,9 @@ import React, {useEffect, useState} from "react";
 import LocalStorageService from "../../services/storage/StorageService";
 import {useSelector} from "react-redux";
 import {State} from "../../store";
-// @ts-ignore
-import {getResultsByUser} from "../../services/user/UserService";
+import {deleteResult, getResultDataById, getResultsByUser} from "../../services/api/dataService";
+import deleteImage from '../../assets/delete.png';
+import editImage from '../../assets/edit.png';
 
 
 interface UserFullInfo {
@@ -27,15 +28,29 @@ const Profile = () => {
 	const [userResults, setResults] = useState([])
 
 	useEffect(() => {
-		if (currentUser) {
-			setUser(() => ({
-				...currentUser
-			}));
-			const results = getResultsByUser(currentUser.email)
+		const fetchData = async () => {
+			if (currentUser) {
+				setUser(() => ({
+					...currentUser
+				}));
+				const results = await getResultsByUser(currentUser.id)
+				setResults(results)
+				console.log(results)
+			}
 		}
+		fetchData()
 	}, [])
 
 	console.log(userInfo)
+
+
+	const handleDelete = async (e: any) => {
+		deleteResult(e.target.id)
+		if (currentUser) {
+			const results = await getResultsByUser(currentUser.id)
+			setResults(results)
+		}
+	}
 
 	return (
 		<div className="container-signup-page">
@@ -53,9 +68,42 @@ const Profile = () => {
 					<h5>Email:</h5>
 					<span>{userInfo.email}</span>
 				</div>
+				<div className="profile-col">
+					<Link to = {'/profile-edit'}>
+						<img
+							className="deleteLogo"
+							src={editImage}
+							alt="delete"
+							width="50px"
+							height="50px"
+						/>
+					</Link>
+				</div>
 			</div>
 			<div className="results-container">
-
+				<h2>Saved analysis results</h2>
+				<div className="saved-results">
+					{userResults.map((item: any) => {
+						return (
+							<div className="saved-result">
+								<div>
+									<Link to={`/result/${item._id}`}>{item._id}</Link>
+								</div>
+								<div>
+									<img
+										onClick={handleDelete}
+										className="deleteLogo"
+										src={deleteImage}
+										alt="delete"
+										width="50px"
+										height="50px"
+										id={item._id}
+									/>
+								</div>
+							</div>
+						)
+					})}
+				</div>
 			</div>
 		</div>
 	);

@@ -1,6 +1,8 @@
 import {AuthService} from "../services/AuthService.js";
+import {UserService} from "../services/UserService.js";
 
 const authService = new AuthService();
+const userService = new UserService();
 
 export const createAuthRoutes = async fastify => {
         fastify.options('/*', async (request, reply) => {
@@ -11,6 +13,12 @@ export const createAuthRoutes = async fastify => {
 
         fastify.post('/signup', async (request, reply) => {
                 try {
+                    const candidate = await userService.getUserInfoByEmail(request.body.email);
+                    if (candidate) {
+                        reply.code(403)
+                        reply.send({error: "This email already exists"})
+                        return
+                    }
                     const result = await authService.userRegister(request.body);
                     reply.code(201);
                     reply.send({result});
@@ -32,18 +40,6 @@ export const createAuthRoutes = async fastify => {
             },
         );
 
-        /*fastify.post('/sentInfo', async (request: FastifyRequest, reply: FastifyReply) => {
-            reply.header("Access-Control-Allow-Origin", "*")
-            try {
-                const { text } = request.body;
-                const result = await sentData(text);
-                console.log(typeof result)
-                reply.send({result})
-            } catch (error) {
-                throw new Error('Invalid username/password combination');
-            }
-        });*/
-
         fastify.post('/logout', async (request, reply) => {
                 try {
                     await authService.userLogout(request);
@@ -54,28 +50,6 @@ export const createAuthRoutes = async fastify => {
                 }
         });
 
-        /*fastify.get('/me', async (request: FastifyRequest, reply: FastifyReply) => {
-                reply.header("Access-Control-Allow-Origin", "*")
-                try {
-                    const verified = await request.jwtVerify()
-                    const id = verified.userId;
-                    if (id) {
-                        console.log(verified.userId)
-                        const client = await fastify.pg.connect();
-                        const user = await client.query(
-                            'SELECT id, email, firstName, lastName FROM users WHERE id = $1',
-                            [id],
-                        );
-                        reply.send(user.rows[0]);
-                    } else {
-                        throw Error()
-                    }
-
-                } catch (error) {
-                    throw new Error('Invalid username/password combination');
-                }
-            },
-        );*/
 
 }
 

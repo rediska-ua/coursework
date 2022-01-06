@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Input, Button } from "reactstrap";
-import { sendTextInfo } from "../../services/api/dataService";
+import { analyzeTextData } from "../../services/api/dataService";
 interface DataForAnalysis {
 	text: string
 }
@@ -13,8 +13,7 @@ const TextArea = (): JSX.Element => {
 		const obj: DataForAnalysis = {
 			text: text,
 		}
-		const result = await sendTextInfo(obj);
-		console.log(result.result)
+		console.log(obj)
 	}
 
 	return (

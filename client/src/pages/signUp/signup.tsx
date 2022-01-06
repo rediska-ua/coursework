@@ -15,13 +15,17 @@ const SignUp: FC  = ()=> {
 	const [formValid, setFormValidation] = useState(false)
 	const navigate = useNavigate()
 
+	const [showAlert, setAlert] = useState(false);
+
+	const alertDiv = document.getElementById("alert");
+
 	const formValidation = (): boolean => {
-		const emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-		const firstNameValid = firstName.match(/^[a-zA-Z]+$/);
-		const lastNameValid = lastName.match(/^[a-zA-Z]+$/);
+		const emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]+)$/i);
+		const firstNameValid = firstName.length > 1;
+		const lastNameValid = lastName.length > 4;
 		const passwordValid = password.length > 6;
 		const isEmailValid = !!emailValid;
-		const isNameValid = (!!lastNameValid) && (!!firstNameValid);
+		const isNameValid = lastNameValid && firstNameValid;
 		const isFormValid = passwordValid && isEmailValid && isNameValid;
 		setFormValidation(isFormValid)
 		return isFormValid;
@@ -31,6 +35,15 @@ const SignUp: FC  = ()=> {
 
 	const onSignUp = async (): Promise<void> => {
 		const data = await authUser({email, password, lastName, firstName});
+		if ("error" in data) {
+			setFirstName('')
+			setLastName('')
+			setEmail('')
+			setPassword('')
+			setAlert(true)
+			setFormValidation(false)
+			return
+		}
 		const result = await loginUser({email, password});
 		const storage = LocalStorageService;
 		storage.clearToken()
@@ -41,6 +54,9 @@ const SignUp: FC  = ()=> {
 	return (
 		<div className="container-signup-page">
 			<h2>Sign up at the website</h2>
+			<div className="alert alert-danger" id="alert" style={{display: showAlert ? 'block' : 'none' }} role="alert">
+				This user already exists
+			</div>
 			<Form className="signup-form" onChange={formValidation}>
 				<FormGroup className="form-col">
 					<h5>First Name:</h5>
@@ -109,7 +125,6 @@ const SignUp: FC  = ()=> {
 					</Col>
 				</FormGroup>
 			</Form>
-			<Link to="/restore_password">Forgot your password?</Link>
 			<div className="no-acc">
 				<span>You already have got an account?  </span>
 				<Link to="/login">{'  '}Sign in</Link>

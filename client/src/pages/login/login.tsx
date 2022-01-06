@@ -1,11 +1,9 @@
 import React, { useState, FC } from 'react';
 import {Link} from "react-router-dom";
 import {Col, FormGroup, Input, Form, Button} from "reactstrap";
-import './login.css';
 import {loginUser} from "../../services/auth/AuthService";
 import LocalStorageService from "../../services/storage/StorageService";
 import { useNavigate } from "react-router-dom";
-import {fireEvent} from "@testing-library/react";
 
 const Login: FC = () => {
 
@@ -15,7 +13,7 @@ const Login: FC = () => {
 	const navigate = useNavigate()
 
 	const formValidation = (): boolean => {
-		const emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+		const emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]+)$/i);
 		const passwordValid = password.length > 6;
 		const isEmailValid = !!emailValid;
 		const isFormValid = passwordValid && isEmailValid;
@@ -80,10 +78,9 @@ const Login: FC = () => {
 						</Button>
 					</FormGroup>
 				</Form>
-				<Link to="/restore_password">Forgot your password?</Link>
 				<div className="no-acc">
 					<span>You already have got an account?</span>
-					<Link to="/signup">Sign up</Link>
+					<Link to="/signup">{" Sign up"}</Link>
 				</div>
 		</div>
 	);

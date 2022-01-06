@@ -13,17 +13,11 @@ export const createUserRoutes = async fastify => {
         reply.code(200)
     });
 
-    /*fastify.post('/sentInfo', async (request: FastifyRequest, reply: FastifyReply) => {
-        reply.header("Access-Control-Allow-Origin", "*")
-        try {
-            const { text } = request.body;
-            const result = await sentData(text);
-            console.log(typeof result)
-            reply.send({result})
-        } catch (error) {
-            throw new Error('Invalid username/password combination');
-        }
-    });*/
+    fastify.get('/', async (request, reply) => {
+        reply.code(200);
+        reply.send("Hello world");
+    });
+
 
 
     fastify.get('/profile', async (request, reply) => {
@@ -34,6 +28,17 @@ export const createUserRoutes = async fastify => {
             reply.send(result);
         }
         throw new Error('Invalid username/password combination');
+    });
+
+    fastify.put('/update/:id', async (request, reply) => {
+        const userId = request.params.id;
+        const body = request.body;
+        if (userId) {
+            const result = await userService.updateUserInfoById(userId, body);
+            reply.code(200);
+            reply.send(result);
+        }
+        throw new Error('Invalid user info');
     });
 
     fastify.get('/profile/:email', async (request, reply) => {

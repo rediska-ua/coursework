@@ -1,6 +1,9 @@
 import React, {useState} from "react";
-import {Button, Input} from "reactstrap";
-import {sendTextInfo} from "../../services/api/dataService";
+import {Button, Input, Spinner} from "reactstrap";
+import {analyzeTextData, postResultData} from "../../services/api/dataService";
+import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {State} from "../../store";
 
 
 
@@ -8,28 +11,63 @@ const Analysis = (): JSX.Element => {
 
 	const [sources, setSources] = useState(['']);
 	const [text, setText] = useState('');
+	const [loading, setLoading] = useState(false)
+	const navigate = useNavigate();
+	const currentUser = useSelector((state: State) => state.auth.currentUser);
+	const [showAlert, setAlert] = useState(false);
+
+	const alertDiv = document.getElementById("alert");
 
 	const sendData = async () => {
-		/*const obj: DataForAnalysis = {
-			text: text,
+		if (text && sources) {
+			if (text.length > 3000) {
+				setAlert(true)
+				return
+			}
+			setAlert(false)
+
+			setLoading(true);
+			const result  = await analyzeTextData(text, sources);
+			if (currentUser) {
+				console.log(currentUser.id)
+				console.log(result.result)
+				const dataObj = {
+					...result.result,
+					createdBy: currentUser.id,
+					isSaved: false
+				}
+				console.log(dataObj)
+				const id = await postResultData(dataObj);
+				console.log(id);
+				navigate(`/result/${id.resultId}`);
+			}
+		} else {
+			alert('Text must not be empty')
 		}
-		const result = await sendTextInfo(obj);
-		console.log(result.result)*/
-		console.log(sources)
 	}
 
 	const handleMultiple = (e: any): void => {
 		const updatedOptions: string[] = [...e.target.options]
 			.filter(option => option.selected)
 			.map(x => x.value);
-		console.log("updatedOptions", updatedOptions);
 		setSources(updatedOptions)
+	}
+
+	if (loading) {
+
+		return (
+			<div className='div-spinner'>
+				<Spinner animation="border" style={{ width: '10rem', height: '10rem' }}/>
+			</div>);
 	}
 
 	return (
 		<div className="main-container">
 			<div className="container-for-input">
 				<h2>Enter some text to analyse</h2>
+				<div className="alert alert-danger" id="alert" style={{display: showAlert ? 'block' : 'none' }} role="alert">
+					The text is too long!
+				</div>
 				<Input
 					bsSize="sm"
 					type="textarea"
@@ -48,12 +86,12 @@ const Analysis = (): JSX.Element => {
 					onChange={handleMultiple}
 					size={3}
 				>
-					<option value="hromadske">Hromadske</option>
-					<option value="liga">Ліга</option>
-					<option value="suspilne">Суспільне</option>
-					<option value="babel">Бабель</option>
-					<option value="dzerkalo">Дзеркало тижня</option>
-					<option value="censor">Цензор.net</option>
+					<option value="@hromadske_ua">Hromadske</option>
+					<option value="@liganet">Ліга</option>
+					<option value="@suspilnenews">Суспільне</option>
+					<option value="@babel">Бабель</option>
+					<option value="@znua_live">Дзеркало тижня</option>
+					<option value="@censor_net">Цензор.net</option>
 				</select>
 				<Button
 					onClick={sendData}
